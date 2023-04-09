@@ -1,0 +1,31 @@
+.cell {
+  position: relative;
+  padding: 5px;
+  border: 1px solid grey;
+  border-left: none;
+  border-bottom: none;
+  width: 80px;
+  height: 30px;
+}
+
+.cell:first-child {
+  border-left: 1px solid grey;
+}
+
+.cell--last-row {
+  border-bottom: 1px solid grey;
+}
+
+.cell--header {
+  text-align: center;
+}
+
+.cell__edit-cell{
+  position: absolute;
+  top: -1px;
+  left: 0;
+  height: 33px;
+  width: 310%;
+  opacity: 1;
+  background: white;
+}
