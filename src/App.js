@@ -13,7 +13,6 @@ export default function Spreadsheet() {
   const [activeColumn, setActiveColumn] = useState(null);
 
   function onCellClick(cellModel) {
-    debugger;
     const { row, column, isEditing } = cellModel;
 
     if (isEditing) {
@@ -37,7 +36,6 @@ export default function Spreadsheet() {
   }
 
   function onBlur(cellModel) {
-    debugger
     // unset active cell if there is one
     const newRows = rows.slice();
     if (activeRow !== null && activeColumn !== null) {
@@ -49,7 +47,7 @@ export default function Spreadsheet() {
   function onCellChange(cellModel, value) {
     const newRows = rows.slice();
     newRows[cellModel.row][cellModel.column].value = value;
-    newRows[cellModel.row][cellModel.column].displayValue = value;
+    newRows[cellModel.row][cellModel.column].displayValue = calculateDisplayValue(rows, cellModel, value);
     setRows(newRows);
   }
 
@@ -73,6 +71,7 @@ function createEmptyGrid() {
       const isHeaderCell = i === 0 || j === 0;
 
       if (j === 0 && i > 0) {
+        // header column
         value = i;
       } else if (i === 0 && j > 0) {
         // header row - special case
@@ -92,4 +91,33 @@ function createEmptyGrid() {
   }
 
   return rows;
+}
+
+function calculateDisplayValue(rows, cellModel, value) {
+  if (!value.startsWith('=') || value.length < 2) {
+    return value;
+  }
+
+  const expression = value.substring(1);
+  const operands = expression.split('+');
+  if (operands.length < 2) {
+    return value;
+  }
+
+  const operandValues = operands.map((op) => {
+    if (!op) return 0;
+
+    const trimmed = op.trim();
+    const [letter, row] = op;
+    const col = LETTERS.indexOf(letter) + 1;
+
+    if (row == undefined || col == undefined) return 0;
+
+    const targetValue = rows[row][col].displayValue;
+
+    return Number(targetValue);
+  });
+  const result = operandValues.reduce((sum, current) => sum + current, 0);
+
+  return result;
 }
