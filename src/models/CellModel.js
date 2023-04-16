@@ -1,9 +1,10 @@
 export default class CellModel {
   value;
+  oldValue;
   displayValue;
   row;
   column;
-  isEditing;
+  dependentCells;
   isHeaderCell;
   isLastRow;
 
@@ -12,7 +13,7 @@ export default class CellModel {
     displayValue,
     row,
     column,
-    isEditing,
+    dependentCells = new Set(),
     isHeaderCell,
     isLastRow
   }) {
@@ -20,7 +21,7 @@ export default class CellModel {
     this.displayValue = displayValue;
     this.row = row;
     this.column = column;
-    this.isEditing = isEditing;
+    this.dependentCells = dependentCells;
     this.isHeaderCell = isHeaderCell;
     this.isLastRow = isLastRow;
   }

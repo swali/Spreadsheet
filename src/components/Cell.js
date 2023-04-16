@@ -1,16 +1,29 @@
-import React  from 'react';
+import React, { useState } from 'react';
 
-export default function Cell({ model, onCellClick, onBlur, onCellChange }) {
-  const { isEditing, isHeaderCell, value, displayValue, isLastRow } = model;
+export default function Cell({ model, onCellChange, onCellBlur }) {
+  const { value, displayValue, isHeaderCell, isLastRow } = model;
+
+  const [isEditing, setIsEditing] = useState(false);
 
   function onChange(e) {
-    onCellChange(model, e.target.value.trim());
+    onCellChange(model, e.target.value);
   }
 
   function onKeyUp(e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
       onBlur(model);
     }
+  }
+
+  function onClick() {
+    if (!isHeaderCell) {
+      setIsEditing(true);
+    }
+  }
+
+  function onBlur(e) {
+    setIsEditing(false);
+    onCellBlur(model);
   }
 
   let content;
@@ -30,7 +43,7 @@ export default function Cell({ model, onCellClick, onBlur, onCellChange }) {
   }
 
   return (
-    <td className={className} onClick={() => onCellClick(model)} onBlur={() => onBlur(model)}>
+    <td className={className} onClick={onClick} onBlur={onBlur}>
       {content}
     </td>
   );
