@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { updateCellInput, updateValues } from './../redux/grid';
 
-export default function Cell({ model, onCellChange, onCellBlur }) {
-  const { value, displayValue, isHeaderCell, isLastRow } = model;
+export default function Cell({ row, column }) {
+  const cellModel = useSelector((state) => {
+    return state.grid[row][column];
+  });
+  const { displayValue, isHeaderCell, isLastRow, value } = cellModel;
+  const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
 
   function onChange(e) {
-    onCellChange(model, e.target.value);
+    dispatch(updateCellInput({ row, column, value: e.target.value }));
   }
 
   function onKeyUp(e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
-      onBlur(model);
+      onBlur();
     }
   }
 
@@ -21,9 +27,9 @@ export default function Cell({ model, onCellChange, onCellBlur }) {
     }
   }
 
-  function onBlur(e) {
+  function onBlur() {
     setIsEditing(false);
-    onCellBlur(model);
+    dispatch(updateValues({ row, column }));
   }
 
   let content;

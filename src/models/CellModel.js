@@ -1,3 +1,4 @@
+// deprecated
 export default class CellModel {
   value;
   oldValue;
