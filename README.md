@@ -4,7 +4,7 @@
 3. Go to http://localhost:3000
 
 # Architecture Choices
-I went through a few iterations and refactors as I implemented the basics and then optimized it as I learned more about React. Below are some key points about the final solution.
+I chose to use React with Redux for this project, despite not having worked with React before. I went through a few iterations and refactors as I implemented the basics and then optimized it as I learned more about React. Below are some key points about the final solution.
 - I use Redux with Redux Toolkit for state management. The state is mainly one 2d array, with each element containing an JS object with properties necessary to render a cell in the spreadsheet.
 - All the state management logic is in redux/grid.js. `grid` is the name of the slice and reducer I use to store the 2d array.
 - There is a presentational component, `Cell`, which handles rendering the input for edit mode and the display value for non-edit mode. It also handles click, blur and enter keypress actions.
