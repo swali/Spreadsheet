@@ -1,3 +1,6 @@
+# Welcome
+Hi and thanks for stopping by! This repo is a basic implementation of a Spreadsheet application like Excel. It uses React for the UI layer and React-Redux for state management. It is optimized to make sure only the cells that change will re-render. Below you will find some details and architecture decisions I made and others I didn't get a chance to explore yet.
+
 # Instructions to run:
 1. npm install
 2. npm run start
